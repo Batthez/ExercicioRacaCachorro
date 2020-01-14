@@ -100,11 +100,11 @@ public class MainActivity extends AppCompatActivity {
                             JSONArray jsonArray = message.getJSONArray(raca);
 
                             for(int i = 0; i<jsonArray.length(); i++){
-                                subraca += jsonArray.get(i).toString()+",";
+                                subraca+= jsonArray.get(i).toString()+",";
                             }
 
-                            Intent intent = new Intent(MainActivity.this,RacasActivity.class);
-                            intent.putExtra("Raca",raca);
+                            Intent intent = new Intent(MainActivity.this,ImagemActivity.class);
+                            intent.putExtra("raca",raca);
                             intent.putExtra("subRaca",subraca);
                             startActivity(intent);
 

@@ -12,9 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ImagemActivity"
+            android:label="@string/title_activity_imagem"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".RacasActivity"
             android:label="@string/title_activity_racas"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
