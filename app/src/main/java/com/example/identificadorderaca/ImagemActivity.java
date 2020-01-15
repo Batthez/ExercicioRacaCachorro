@@ -27,6 +27,8 @@ public class ImagemActivity extends AppCompatActivity {
     private final int SUB_RACA = 1000;
     private String subRaca = "";
     private String raca;
+    private String url;
+    private boolean verif;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,24 +41,27 @@ public class ImagemActivity extends AppCompatActivity {
         lblNomeDog = findViewById(R.id.lblNomeDog);
 
         Intent intent = getIntent();
-
+        verif = intent.getBooleanExtra("verif",false);
         raca = intent.getStringExtra("raca");
-        boolean verif = intent.getBooleanExtra("verif",false);
 
-        if(verif){
-            subRaca = intent.getStringExtra("subRaca");
-            lblNomeDog.setText(raca+" "+subRaca);
-
-
-        }else{
-            imgRequest();
-        }
+        imgRequest();
 
     }
 
 
     private void imgRequest(){
-        String url = "https://dog.ceo/api/breed/"+raca+"/images/random";
+
+        Intent intent = getIntent();
+
+
+        if(verif){
+
+            subRaca = intent.getStringExtra("subRaca");
+            url = "https://dog.ceo/api/breed/"+raca+"/"+subRaca+"/images/random";
+        }else{
+            url = "https://dog.ceo/api/breed/"+raca+"/images/random";
+        }
+
 
         imgView = findViewById(R.id.imgDog);
 
@@ -90,8 +95,16 @@ public class ImagemActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-        startActivity(new Intent(ImagemActivity.this, MainActivity.class));
-        finish();
+        if(verif){
+            Intent i = new Intent(ImagemActivity.this, RacasActivity.class);
+            i.putExtra("raca",raca);
+            i.putExtra("subRaca",subRaca);
+            startActivity(i);
+        }else{
+            startActivity(new Intent(ImagemActivity.this, MainActivity.class));
+            finish();
+        }
+
         return;
     }
 

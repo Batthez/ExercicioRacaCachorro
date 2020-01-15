@@ -15,27 +15,27 @@
         android:layout_height="40dp"
         android:layout_marginStart="88dp"
         android:layout_marginLeft="88dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="Cachorro aqui"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imgRaca" />
 
     <LinearLayout
-        android:layout_width="414dp"
-        android:layout_height="420dp"
-        android:layout_marginTop="96dp"
+        android:layout_width="412dp"
+        android:layout_height="329dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblRaca">
+        app:layout_constraintTop_toBottomOf="@+id/lblRaca"
+        app:layout_constraintVertical_bias="0.561">
 
         <ListView
             android:id="@+id/listaSubRaca"
-            android:layout_width="301dp"
-            android:layout_height="349dp"
+            android:layout_width="303dp"
+            android:layout_height="304dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
@@ -45,5 +45,16 @@
             tools:layout_editor_absoluteY="289dp" />
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imgRaca"
+        android:layout_width="211dp"
+        android:layout_height="205dp"
+        android:layout_marginStart="99dp"
+        android:layout_marginLeft="99dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

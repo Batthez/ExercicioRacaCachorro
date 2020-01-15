@@ -6,11 +6,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -33,10 +36,17 @@ public class RacasActivity extends AppCompatActivity {
         Intent intent = getIntent();
         raca = intent.getStringExtra("raca");
         subRaca = intent.getStringExtra("subRaca");
+        String urlImg = intent.getStringExtra("imgRaca");
+
 
         //TextView
         lblRaca = findViewById(R.id.lblRaca);
         lblRaca.setText(raca);
+
+        //ImageView
+        ImageView imgView = findViewById(R.id.imgRaca);
+
+        Picasso.get().load(urlImg).into(imgView);
 
         listView = findViewById(R.id.listaSubRaca);
 

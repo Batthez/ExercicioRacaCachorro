@@ -19,6 +19,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private RequestQueue queue;
     private String raca;
     private final int SUB_RACA = 2222;
+    private String urlImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                             adapter.notifyDataSetChanged();
+
                         }catch (Exception e){
                             e.printStackTrace();
                         }
@@ -104,11 +107,29 @@ public class MainActivity extends AppCompatActivity {
                                 subraca+= jsonArray.get(i).toString()+",";
                             }
 
+                            JsonObjectRequest requestImg = new JsonObjectRequest(Request.Method.GET, "https://dog.ceo/api/breed/"+raca+"/images/random", null, new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        urlImg = response.get("message").toString();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                                             }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+
+                                }
+                            });
+                            queue.add(requestImg);
+
 
                             if(!subraca.equals("")){
                                 Intent i = new Intent(MainActivity.this,RacasActivity.class);
                                 i.putExtra("raca",raca);
                                 i.putExtra("subRaca",subraca);
+                                i.putExtra("imgRaca",urlImg);
                                 startActivity(i);
                                 finish();
                             }else{
