@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView lv;
     private RequestQueue queue;
     private String raca;
+    private final int SUB_RACA = 2222;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,10 +104,23 @@ public class MainActivity extends AppCompatActivity {
                                 subraca+= jsonArray.get(i).toString()+",";
                             }
 
-                            Intent intent = new Intent(MainActivity.this,ImagemActivity.class);
-                            intent.putExtra("raca",raca);
-                            intent.putExtra("subRaca",subraca);
-                            startActivity(intent);
+
+                            if(!subraca.equals("")){
+                                Intent i = new Intent(MainActivity.this,RacasActivity.class);
+                                i.putExtra("raca",raca);
+                                i.putExtra("subRaca",subraca);
+                                startActivity(i);
+                                finish();
+                            }else{
+
+                                Intent i = new Intent(MainActivity.this, ImagemActivity.class);
+                                i.putExtra("raca",raca);
+                                startActivity(i);
+                                finish();
+                            }
+
+
+
 
                         }catch(Exception e ){
                             Log.e("Erro",e.getMessage());
@@ -126,10 +140,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
 
     }
 

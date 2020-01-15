@@ -28,6 +28,7 @@ public class RacasActivity extends AppCompatActivity {
         setContentView(R.layout.activity_racas);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Escolha a sub-raça");
 
         Intent intent = getIntent();
         raca = intent.getStringExtra("raca");
@@ -50,6 +51,7 @@ public class RacasActivity extends AppCompatActivity {
             Log.e("RAÇAS",racas[i]);
         }
 
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,subRacas);
 
         listView.setAdapter(adapter);
@@ -60,15 +62,22 @@ public class RacasActivity extends AppCompatActivity {
 
                 String subRaca = listView.getItemAtPosition(position).toString();
 
-                Intent resultIntent = new Intent();
+                Intent resultIntent = new Intent(RacasActivity.this,ImagemActivity.class);
                 resultIntent.putExtra("subRaca",subRaca);
+                resultIntent.putExtra("raca",raca);
+                resultIntent.putExtra("verif",true);
+                startActivity(resultIntent);
 
-                setResult(RESULT_OK,resultIntent);
-                finish();
             }
         });
 
 
+    }
+
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(RacasActivity.this, MainActivity.class));
+        finish();
     }
 
 

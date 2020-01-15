@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,49 +32,34 @@ public class ImagemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_imagem);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Doguinhos fofos");
+
+        lblNomeDog = findViewById(R.id.lblNomeDog);
 
         Intent intent = getIntent();
 
-         raca = intent.getStringExtra("raca");
-        String subraca = intent.getStringExtra("subRaca");
+        raca = intent.getStringExtra("raca");
+        boolean verif = intent.getBooleanExtra("verif",false);
 
-        if(!subraca.equals("")){
-            Intent i = new Intent(ImagemActivity.this,RacasActivity.class);
-            i.putExtra("raca",raca);
-            i.putExtra("subRaca",subraca);
-            startActivityForResult(i,SUB_RACA);
+        if(verif){
+            subRaca = intent.getStringExtra("subRaca");
+            lblNomeDog.setText(raca+" "+subRaca);
+
+
         }else{
             imgRequest();
         }
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode,int resultCode, Intent data ) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == SUB_RACA){
-
-            if(resultCode == RESULT_OK){
-
-                data.getStringExtra("subRaca");
-
-
-
-
-            }
-
-
-        }
-
-
-    }
 
     private void imgRequest(){
         String url = "https://dog.ceo/api/breed/"+raca+"/images/random";
 
         imgView = findViewById(R.id.imgDog);
-        lblNomeDog = findViewById(R.id.lblNomeDog);
+
 
         //Utilizando o Volley para requisitar a API
         queue = Volley.newRequestQueue(this);
@@ -85,19 +71,10 @@ public class ImagemActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 try {
                     String urlImg = response.get("message").toString();
-
-                    if(subRaca.equals("")){
-                        //Código que pega a imagem do cão sem sub-raça
-                        Picasso.get().load(urlImg).into(imgView);
-                    }else{
-
-
-                    }
-
+                    Picasso.get().load(urlImg).into(imgView);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -109,6 +86,13 @@ public class ImagemActivity extends AppCompatActivity {
         queue.add(request);
 
 
+    }
+
+    @Override
+    public void onBackPressed(){
+        startActivity(new Intent(ImagemActivity.this, MainActivity.class));
+        finish();
+        return;
     }
 
 }
