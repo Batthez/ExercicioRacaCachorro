@@ -1,11 +1,13 @@
 package com.example.identificadorderaca;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,9 +19,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.identificadorderaca.classes.Raca;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -31,8 +34,9 @@ public class MainActivity extends AppCompatActivity {
     private ListView lv;
     private RequestQueue queue;
     private String raca;
-    private final int SUB_RACA = 2222;
     private String urlImg;
+
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         racas = new ArrayList<>();
 
@@ -62,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
 
                             for(int i = 0; i < jsonArray.length(); i++){
                                 racas.add(jsonArray.get(i).toString());
-
                             }
 
                             adapter.notifyDataSetChanged();
@@ -107,23 +111,6 @@ public class MainActivity extends AppCompatActivity {
                                 subraca+= jsonArray.get(i).toString()+",";
                             }
 
-                            JsonObjectRequest requestImg = new JsonObjectRequest(Request.Method.GET, "https://dog.ceo/api/breed/"+raca+"/images/random", null, new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    try {
-                                        urlImg = response.get("message").toString();
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                                             }
-                            }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-
-                                }
-                            });
-                            queue.add(requestImg);
-
 
                             if(!subraca.equals("")){
                                 Intent i = new Intent(MainActivity.this,RacasActivity.class);
@@ -140,13 +127,9 @@ public class MainActivity extends AppCompatActivity {
                                 finish();
                             }
 
-
-
-
-                        }catch(Exception e ){
-                            Log.e("Erro",e.getMessage());
+                        }catch(Exception e ) {
+                            Log.e("Erro", e.getMessage());
                         }
-
 
 
                     }
@@ -156,12 +139,36 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
-
                 queue.add(request);
+            }
+        });
 
+
+        lv.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                Raca raca = new Raca();
+
+                JSONObject obj = new JSONObject();
+                //usar o acumulate TODO
+
+
+                return false;
             }
         });
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        sharedPreferences = getSharedPreferences("dog_preferences",MODE_PRIVATE);
+        String url = sharedPreferences.getString("url","https://img.r7.com/images/jacare-20082018164712009?dimensions=460x305");
+        ImageView img = findViewById(R.id.imgUltimoDog);
+        Picasso.get().load(url).into(img);
+
+
+    }
 }
